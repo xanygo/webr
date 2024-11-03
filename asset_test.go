@@ -11,11 +11,16 @@ import (
 
 func TestHandler_ServeHTTP(t *testing.T) {
 	ts := httptest.NewServer(&Handler{})
-	resp, err := ts.Client().Get(ts.URL + "/jquery.min.js")
-	if err != nil {
-		t.Fatal(err)
+	check := func(t *testing.T, name string) {
+		resp, err := ts.Client().Get(ts.URL + name)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer resp.Body.Close()
+		if resp.StatusCode != 200 {
+			t.Fatalf("want status 200, got %d", resp.StatusCode)
+		}
 	}
-	if resp.StatusCode != 200 {
-		t.Fatalf("want status 200, got %d", resp.StatusCode)
-	}
+	check(t, "/jquery.min.js")
+	check(t, "/jquery/jquery-3.7.1.min.js")
 }
