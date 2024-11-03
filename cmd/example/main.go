@@ -29,7 +29,6 @@ func main() {
 		_, _ = writer.Write([]byte(html))
 	})
 	http.Handle("/asset/", http.StripPrefix("/asset/", &webr.Handler{}))
-	// http.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("assets"))))
 	err := http.ListenAndServe("127.0.0.1:8080", nil)
 	log.Println("server exit:", err)
 }

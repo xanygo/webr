@@ -7,10 +7,12 @@ package webr
 import (
 	"crypto/md5"
 	"embed"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
+	"path"
 	"strings"
 	"sync"
 )
@@ -64,7 +66,6 @@ func (h httpFS) Open(name string) (http.File, error) {
 	} else {
 		name = "/asset/" + name
 	}
-
 	return h.FS.Open(name)
 }
 
@@ -83,7 +84,7 @@ func fileMd5ETag(fp string) string {
 	if _, err = io.Copy(m, file); err != nil {
 		return ""
 	}
-	str := fmt.Sprintf("%x", m.Sum(nil))
+	str := hex.EncodeToString(m.Sum(nil))
 	result := fmt.Sprintf("%q", str)
 	md5etag.Store(fp, result)
 	return result
@@ -98,6 +99,9 @@ func init() {
 	}
 	if err != nil {
 		panic(err)
+	}
+	for k, v := range alias {
+		alias[path.Clean("/"+k)] = v
 	}
 }
 
