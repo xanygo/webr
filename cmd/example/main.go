@@ -13,8 +13,8 @@ import (
 
 const html = `<html>
 <head>
-<script type="text/javascript" src="/asset/bootstrap.min.js"></script>
-<link rel="stylesheet" href="/asset/bootstrap.min.css" />
+<script type="text/javascript" src="/asset/bootstrap/bootstrap.min.js"></script>
+<link rel="stylesheet" href="/asset/bootstrap/bootstrap.min.css" />
 </head
 <body>
  <h1>Hello</h1>
@@ -28,7 +28,8 @@ func main() {
 	http.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
 		_, _ = writer.Write([]byte(html))
 	})
-	http.Handle("/asset/", http.StripPrefix("/asset/", &webr.Handler{}))
+	http.Handle("/asset/", http.StripPrefix("/asset/", webr.Handler()))
+	log.Println("running...")
 	err := http.ListenAndServe("127.0.0.1:8080", nil)
 	log.Println("server exit:", err)
 }
