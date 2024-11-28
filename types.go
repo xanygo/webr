@@ -11,7 +11,7 @@ import (
 
 type Response struct {
 	Code int
-	Data interface{}
+	Data any
 	Msg  string
 }
 
@@ -26,7 +26,7 @@ func (r Response) WriteJSONStatus(w http.ResponseWriter, status int) {
 	_, _ = w.Write(bf)
 }
 
-func WriteJSON(w http.ResponseWriter, code int, msg string, data interface{}) {
+func WriteJSON(w http.ResponseWriter, code int, msg string, data any) {
 	resp := Response{Code: code, Data: data, Msg: msg}
 	resp.WriteJSON(w)
 }

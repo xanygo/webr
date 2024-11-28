@@ -6,12 +6,13 @@ package webr
 
 import (
 	"fmt"
-	"github.com/xanygo/anygo/xdb"
-	"github.com/xanygo/anygo/xhtml"
 	"html/template"
 	"net/http"
 	"net/url"
 	"strconv"
+
+	"github.com/xanygo/anygo/xdb"
+	"github.com/xanygo/anygo/xhtml"
 )
 
 type Pager1 struct {
@@ -60,6 +61,10 @@ func (p *Pager1) getNear() int {
 }
 
 func (p *Pager1) HTML() template.HTML {
+	totalPage := p.Info.TotalPages()
+	if totalPage < 2 {
+		return ""
+	}
 	ul := xhtml.NewAny("ul")
 	xhtml.SetClass(ul, "pagination", "justify-content-center")
 
@@ -73,7 +78,6 @@ func (p *Pager1) HTML() template.HTML {
 		ul.Add(p.pageLi(page-1, "上一页"))
 	}
 
-	totalPage := p.Info.TotalPages()
 	ns, ne := p.Info.NearPages(p.getNear())
 	for i := ns; i <= ne; i++ {
 		if i == page {
