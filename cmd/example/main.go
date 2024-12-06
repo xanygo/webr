@@ -13,7 +13,7 @@ import (
 
 const html = `<html>
 <head>
-<script type="text/javascript" src="/asset/bootstrap/bootstrap.min.js"></script>
+<script type="text/javascript" src="/asset/bootstrap/bootstrap.bundle.min.js" defer ></script>
 <link rel="stylesheet" href="/asset/bootstrap/bootstrap.min.css" />
 </head
 <body>
