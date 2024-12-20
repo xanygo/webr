@@ -27,6 +27,9 @@ type Pager1 struct {
 
 	// PageLink 可选，自定义生成链接的方法
 	PageLink func(r *http.Request, page int) string
+
+	// DisableStat 不显示记录条数等统计信息
+	DisableStat bool
 }
 
 func (p *Pager1) getPageLink(id int) string {
@@ -62,13 +65,18 @@ func (p *Pager1) getNear() int {
 
 func (p *Pager1) HTML() template.HTML {
 	totalPage := p.Info.TotalPages()
-	if totalPage < 2 {
-		return ""
-	}
 	ul := xhtml.NewAny("ul")
 	xhtml.SetClass(ul, "pagination", "justify-content-center")
 
 	page := p.Info.Page
+
+	if !p.DisableStat {
+		tp := totalPage
+		if p.Info.Total == 0 {
+			tp = 0
+		}
+		ul.Add(p.disabled(fmt.Sprintf("共 %d 条记录 %d 页", p.Info.Total, tp)))
+	}
 
 	if page == 1 {
 		ul.Add(p.disabled("首页"))

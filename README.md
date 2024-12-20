@@ -19,6 +19,7 @@
 │   │       └── bootstrap-icons.woff2
 ├── jquery
 │   ├── jquery.form.min.js
+│   ├── jquery.serializejson.min.js
 │   └── jquery.min.js
 ├── vue3
 │   └── vue.global.prod.js
