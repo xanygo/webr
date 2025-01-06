@@ -1,0 +1,16 @@
+.sortable-chosen{
+    opacity: 0.6;
+    cursor: move;
+    box-shadow: 0 0 50px var(--bs-primary);
+    /*transform: scale(0.95);*/
+    transition: transform 0.2s ease;
+}
+.sortable-ghost{
+    border: 3px dashed var(--bs-secondary);
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.sort-handle{
+    font-size: 1.5rem;
+    cursor: move;
+}
