@@ -31,7 +31,7 @@ func (r Response) WriteJSONStatus(w http.ResponseWriter, status int) {
 }
 
 func (r Response) WriteError(w http.ResponseWriter, err error) {
-	code := xerror.ErrCode2(err, 500)
+	code := xerror.ErrCode(err, 500)
 	r.Code = int(code)
 	r.Msg = "失败：" + err.Error()
 	r.WriteJSON(w)
