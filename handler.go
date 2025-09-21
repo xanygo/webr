@@ -10,7 +10,7 @@ import (
 	_ "embed"
 	"io/fs"
 
-	"github.com/xanygo/anygo/xarchive"
+	"github.com/xanygo/anygo/ds/xzip"
 	"github.com/xanygo/anygo/xcodec"
 	"github.com/xanygo/anygo/xhttp"
 	"github.com/xanygo/anygo/xsync"
@@ -39,7 +39,7 @@ var uiFS = xsync.OnceInit[fs.FS]{
 		dz := &xcodec.AesOFB{
 			Key: "08cc63c24f77fc1d4141663fcb9a9d26",
 		}
-		return xarchive.MustZipDecrypt(uiAsset, dz)
+		return xzip.MustDecrypt(uiAsset, dz)
 	},
 }
 
