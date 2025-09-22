@@ -10,10 +10,10 @@ import (
 	_ "embed"
 	"io/fs"
 
+	"github.com/xanygo/anygo/ds/xsync"
 	"github.com/xanygo/anygo/ds/xzip"
 	"github.com/xanygo/anygo/xcodec"
 	"github.com/xanygo/anygo/xhttp"
-	"github.com/xanygo/anygo/xsync"
 )
 
 //go:embed asset/asset.zip
