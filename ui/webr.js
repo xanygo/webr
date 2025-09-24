@@ -120,6 +120,18 @@ const webr = (function() {
         }
     }
 
+    const loadingSVG=`<div style="text-align: center"><svg width=80 height=20>
+  <circle cx=10 cy=10 r=8 fill="red">
+    <animate attributeName="opacity" values="1;.3;1" dur="0.9s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx=40 cy=10 r=8 fill="green">
+    <animate attributeName="opacity" values="1;.3;1" dur="0.9s" repeatCount="indefinite" begin="0.3s"/>
+  </circle>
+  <circle cx=70 cy=10 r=8 fill="blue">
+    <animate attributeName="opacity" values="1;.3;1" dur="0.9s" repeatCount="indefinite" begin="0.6s"/>
+  </circle>
+</svg></div>
+`
 
     function JSONForm(target,onSuccess,onError) {
         $(target).on('submit', function(e) {
@@ -130,14 +142,29 @@ const webr = (function() {
                 method: $(this).attr("method") || "POST",
                 contentType: 'application/json',
                 data: JSON.stringify(formData),
+                beforeSend:function(xml){
+                    try{
+                        xml.setRequestHeader("X-Webr",window.screen.height+"/"+window.screen.width);
+                    }catch(e){}
+                    if (typeof onSuccess == "string"){
+                        $(onSuccess).html(loadingSVG)
+                    }
+                },
                 success: function(response) {
                     if (onSuccess){
-                        onSuccess(response);
+                        if (typeof onSuccess === "function"){
+                            onSuccess(response);
+                        }else{
+                            $(onSuccess).html(response)
+                        }
                     }else{
                         onResponse(e,response)
                     }
                 },
                 error: function(xhr, status, error) {
+                    if (typeof onSuccess == "string"){
+                        $(onSuccess).html("错误："+error)
+                    }
                     if (onError) {
                         onError(xhr, status, error)
                     }else{
