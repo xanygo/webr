@@ -2,7 +2,7 @@
 //  Author: hidu <duv123+git@gmail.com>
 //  Date: 2024-11-04
 
-//go:generate anygo-encrypt-zip -token 08cc63c24f77fc1d4141663fcb9a9d26 -o ui.ez ui
+//go:generate anygo-encrypt-zip -m js,css -token 08cc63c24f77fc1d4141663fcb9a9d26 -o ui.ez ui
 
 package webr
 
