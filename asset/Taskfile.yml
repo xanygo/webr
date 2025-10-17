@@ -57,8 +57,8 @@ tasks:
           Site: https://axios-http.com/zh/docs/intro
 
         - Name: "clipboard.js"
-          RawURL: "https://github.com/zenorocha/clipboard.js/blob/master/dist/clipboard.min.js"
-          URL: "https://xget.xi-xu.me/gh/zenorocha/clipboard.js/blob/master/dist/clipboard.min.js"
+          RawURL: "https://github.com/zenorocha/clipboard.js/raw/refs/heads/master/dist/clipboard.min.js"
+          URL: "https://xget.xi-xu.me/gh/zenorocha/clipboard.js/raw/refs/heads/master/dist/clipboard.min.js"
           Site: https://clipboardjs.com/
 
         - Name: "sortable.js"

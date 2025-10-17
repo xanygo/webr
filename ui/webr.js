@@ -133,9 +133,17 @@ const webr = (function() {
 </svg></div>
 `
 
+    function Loading(target){
+        $(target).html(loadingSVG)
+    }
+
     function JSONForm(target,onSuccess,onError) {
         $(target).on('submit', function(e) {
             e.preventDefault();
+            if (typeof onSuccess == "string"){
+                $(onSuccess).html(loadingSVG)
+            }
+
             let formData = $(this).serializeJSON()
             $.ajax({
                 url: $(this).attr("action"),
@@ -146,9 +154,6 @@ const webr = (function() {
                     try{
                         xml.setRequestHeader("X-Webr",window.screen.height+"/"+window.screen.width);
                     }catch(e){}
-                    if (typeof onSuccess == "string"){
-                        $(onSuccess).html(loadingSVG)
-                    }
                 },
                 success: function(response) {
                     if (onSuccess){
@@ -370,6 +375,7 @@ const webr = (function() {
         BindHover:BindHover,
         BindSortable:BindSortable,
         BindCountDown:BindCountDown,
+        Loading:Loading,
     }
 })();
 
