@@ -1,0 +1,134 @@
+# https://taskfile.dev
+
+version: '3'
+
+tasks:
+  default:
+
+    cmds:
+      - echo "starting..."
+      - task: clear
+      - task: download
+      - task: icons
+      - task: bootstrap
+      - task: jquery
+      - task: wang
+      - task: other
+      - task: create
+      - echo "finished"
+    silent: true
+
+  clear:
+    cmds:
+      - mkdir -p tmp && rm -rf tmp/*
+
+  download:
+    dir: tmp
+    desc: "Download files if they do not exist"
+    vars:
+      FILES:
+        - Name: "bootstrap.js"
+          RawURL: "https://github.com/twbs/bootstrap/raw/refs/heads/main/dist/js/bootstrap.bundle.min.js"
+          URL: "https://xget.xi-xu.me/gh/twbs/bootstrap/raw/refs/heads/main/dist/js/bootstrap.bundle.min.js"
+
+        - Name: "bootstrap.css"
+          RawURL: "https://github.com/twbs/bootstrap/raw/refs/heads/main/dist/css/bootstrap.min.css"
+          URL: "https://xget.xi-xu.me/gh/twbs/bootstrap/raw/refs/heads/main/dist/css/bootstrap.min.css"
+
+        - Name: "icons.zip"
+          RawURL: "https://github.com/twbs/icons/releases/download/v1.13.1/bootstrap-icons-1.13.1.zip"
+          URL: "https://xget.xi-xu.me/gh/twbs/icons/releases/download/v1.13.1/bootstrap-icons-1.13.1.zip"
+
+        - Name: "jquery.js"
+          URL: "https://code.jquery.com/jquery-3.7.1.min.js"
+
+        - Name: "form2json.js"
+          RawURL: "https://github.com/marioizquierdo/jquery.serializeJSON/raw/refs/heads/master/jquery.serializejson.min.js"
+          URL: "https://xget.xi-xu.me/gh/marioizquierdo/jquery.serializeJSON/raw/refs/heads/master/jquery.serializejson.min.js"
+          Site: https://github.com/marioizquierdo/jquery.serializeJSON
+
+        - Name: "form.js"
+          RawURL: "https://github.com/jquery-form/form/raw/refs/heads/master/dist/jquery.form.min.js"
+          URL: "https://xget.xi-xu.me/gh/jquery-form/form/raw/refs/heads/master/dist/jquery.form.min.js"
+          Site: https://github.com/jquery-form/form
+
+        - Name: "axios.js"
+          URL: "https://unpkg.com/axios/dist/axios.min.js"
+          Site: https://axios-http.com/zh/docs/intro
+
+        - Name: "clipboard.js"
+          RawURL: "https://github.com/zenorocha/clipboard.js/blob/master/dist/clipboard.min.js"
+          URL: "https://xget.xi-xu.me/gh/zenorocha/clipboard.js/blob/master/dist/clipboard.min.js"
+          Site: https://clipboardjs.com/
+
+        - Name: "sortable.js"
+          RawURL: "https://github.com/SortableJS/Sortable/raw/refs/heads/master/Sortable.min.js"
+          URL: "https://xget.xi-xu.me/gh/SortableJS/Sortable/raw/refs/heads/master/Sortable.min.js"
+          Site: https://github.com/SortableJS/Sortable
+
+        - Name: "wangEditor.js"
+          URL: "https://unpkg.com/@wangeditor/editor@latest/dist/index.js"
+          Site: https://github.com/wangeditor-team/wangEditor
+
+        - Name: "wangEditor.css"
+          URL: "https://unpkg.com/@wangeditor/editor@latest/dist/css/style.css"
+          Site: https://github.com/wangeditor-team/wangEditor
+
+    cmds:
+      - |
+        set -ex
+        {{ range $index,$item := .FILES }}
+          NAME="{{$item.Name}}"
+          URL="{{$item.URL}}"
+          if [ ! -f "$NAME" ]; then
+            echo "Downloading $NAME ..."
+            wget -O "$NAME" "$URL"
+          else
+            echo "$NAME already exists, skipping."
+          fi
+        {{ end }}
+
+  bootstrap:
+    cmds:
+      - mkdir -p bootstrap && rm -rf bootstrap/*
+      - cp tmp/bootstrap.js bootstrap/
+      - cp tmp/bootstrap.css bootstrap/
+
+  icons:
+    dir: tmp
+    cmds:
+      - |
+        mkdir -p icons_tmp && rm -rf icons_tmp/*
+        unzip -f icons.zip -d icons_tmp
+        [ ! -f "icons.tar.gz" ] && tar -czf icons.tar.gz icons_tmp && rm -rf icons_tmp
+        mkdir -p icons && rm -rf icons/*
+        tar -xzf icons.tar.gz --strip-components=2 -C icons
+
+  jquery:
+    cmds:
+      - mkdir -p jquery && rm -rf jquery/*
+      - cp tmp/jquery.js jquery/jquery.js
+      - cp tmp/form2json.js jquery/form2json.js
+      - cp tmp/form.js jquery/form.js
+
+  wang:
+    cmds:
+      - mkdir -p wangeditor && rm -rf wangeditor/*
+      - cp tmp/wangEditor.js wangeditor/index.js
+      - cp tmp/wangEditor.css wangeditor/style.css
+
+  other:
+    cmds:
+      - mkdir -p sortable && rm -rf sortable/*
+      - mkdir -p axios && rm -rf axios/*
+      -  mkdir -p clipboard && rm -rf clipboard/*
+      - cp tmp/sortable.js sortable/sortable.js
+      - cp tmp/axios.js axios/axios.js
+      - cp tmp/clipboard.js clipboard/clipboard.js
+
+  create:
+    cmds:
+      - rm -f asset.zip
+      - tree axios bootstrap clipboard jquery sortable wangeditor -L 2
+      - tree icons|grep -v svg
+      - zip -r -9 asset.zip axios bootstrap  clipboard icons jquery sortable wangeditor

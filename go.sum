@@ -1,4 +1,4 @@
-github.com/fsgo/fst v0.0.5 h1:c12J39shorNiS3X9QsK6sg/KUzw8FOA3IoKPb/upj7E=
-github.com/fsgo/fst v0.0.5/go.mod h1:vNB0la0LICDwsMuwD7KR8NNDnslYyH/1x1+fOamXra8=
-github.com/xanygo/anygo v0.0.0-20251011024003-71c1748915d2 h1:yq26agWPH1fatCA2gzGUhrvzKbFWLbk5DP7MFLbj8Ew=
-github.com/xanygo/anygo v0.0.0-20251011024003-71c1748915d2/go.mod h1:O/3LdCAWAFyRS/RBzuOwx6ke7nG24lbmxDuJPX7A468=
+github.com/fsgo/fst v0.0.6 h1:250lrVQKcHIJv4aHKcQIRfNknVhbluXnF1suHU8wuAo=
+github.com/fsgo/fst v0.0.6/go.mod h1:vNB0la0LICDwsMuwD7KR8NNDnslYyH/1x1+fOamXra8=
+github.com/xanygo/anygo v0.0.0-20251016054658-39708a3b0696 h1:Kip2BJymXpMQS0MCg3a8VSvEP7shgLJP5HxzbWKQr8Y=
+github.com/xanygo/anygo v0.0.0-20251016054658-39708a3b0696/go.mod h1:KFDcoWNyMImt028pI21gphRDx4XBjBEkAIe8ejiVEjk=
