@@ -11,7 +11,7 @@ import (
 	"net/url"
 	"strconv"
 
-	"github.com/xanygo/anygo/xdb"
+	"github.com/xanygo/anygo/store/xdb"
 	"github.com/xanygo/anygo/xhtml"
 )
 
