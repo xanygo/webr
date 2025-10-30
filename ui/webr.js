@@ -33,7 +33,7 @@ const webr = (function() {
 
         $.ajax({
             url: option.url,
-            method: option.method || 'GET', // 请求方法
+            method: option.method || 'GET',
             success: function(response) {
                 $('#webr-amb').html(response);
                 const modal = new bootstrap.Modal(am.get(0));
@@ -202,7 +202,7 @@ const webr = (function() {
         }
         $('#webr-cf-t').text(title)
         $('#webr-cf .modal-body').html(msg)
-        $('#webr-cf-ok').click(callback)
+        $('#webr-cf-ok').one("click",callback)
 
         const modal = new bootstrap.Modal(document.getElementById('webr-cf'));
         modal.show();
@@ -210,7 +210,7 @@ const webr = (function() {
 
 
     function BindAjaxConfirm(){
-        $('button[data-webr-ajax]').on('click', function(event) {
+        $(document).on('click', 'button[data-webr-ajax]',function(event) {
             event.preventDefault();
             let option=$(this).data('webr-ajax')
             Confirm(option.title||"请确认",option.msg || "",function(){
@@ -233,7 +233,8 @@ const webr = (function() {
     }
 
     function BindInputAjaxChange(){
-        $('input[data-webr-ajax]').on('change', function(event) {
+        $(document).on('click', 'input[data-webr-ajax]', function(event) {
+        // $('input[data-webr-ajax]').on('change', function(event) {
             event.preventDefault();
             let option=$(this).data('webr-ajax')
             let formData=option.data || {}
