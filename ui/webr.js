@@ -1,12 +1,12 @@
 
 const webr = (function() {
-    function escape(str) {
-        return str.replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
-    }
+    // function escape(str) {
+    //     return str.replace(/&/g, "&amp;")
+    //         .replace(/</g, "&lt;")
+    //         .replace(/>/g, "&gt;")
+    //         .replace(/"/g, "&quot;")
+    //         .replace(/'/g, "&#039;");
+    // }
 
     function AjaxModal(option) {
         const code="<div class='modal fade bg-light' id='webr-am' tabindex='-1' aria-labelledby='webr-aml' aria-hidden='true'>" +
@@ -48,10 +48,10 @@ const webr = (function() {
     }
 
     function BindAjaxModal() {
-        $('[data-webr-ajaxmodal]').on('click', function(event) {
+        $(document).on("click",'[data-webr-ajaxmodal]',function(event){
             event.preventDefault();
             AjaxModal($(this).data('webr-ajaxmodal'))
-        });
+        })
     }
 
 
@@ -89,7 +89,7 @@ const webr = (function() {
     }
 
 
-    function onResponse(e,resp,success,fail){
+    function onResponse(event,resp,success,fail){
         if ( !resp.hasOwnProperty('Code') ) {
             Error("服务端响应错误：" + JSON.stringify(resp));
             return;
@@ -98,13 +98,13 @@ const webr = (function() {
             if (success){
                 success(resp)
             }else{
-                Toast(resp.Msg || "已保存");
+                Toast(resp.Msg || "已提交");
                 setTimeout(() => {
                     if (resp.Jump){
                         location.href = resp.Jump
                     }else if ( resp.Reload ){
                         location.reload();
-                    }else if ($(e).parents("#webr-am")){
+                    }else if ($(event).parents("#webr-am")){
                         location.reload();
                     }
                 }, 500);
@@ -120,18 +120,17 @@ const webr = (function() {
         }
     }
 
-    const loadingSVG=`<div style="text-align: center"><svg width=80 height=20>
-  <circle cx=10 cy=10 r=8 fill="red">
-    <animate attributeName="opacity" values="1;.3;1" dur="0.9s" repeatCount="indefinite"/>
-  </circle>
-  <circle cx=40 cy=10 r=8 fill="green">
-    <animate attributeName="opacity" values="1;.3;1" dur="0.9s" repeatCount="indefinite" begin="0.3s"/>
-  </circle>
-  <circle cx=70 cy=10 r=8 fill="blue">
-    <animate attributeName="opacity" values="1;.3;1" dur="0.9s" repeatCount="indefinite" begin="0.6s"/>
-  </circle>
-</svg></div>
-`
+    const loadingSVG="<div style='text-align: center'><svg width=80 height=20>"+
+    "<circle cx=10 cy=10 r=8 fill='red'>"+
+       "<animate attributeName='opacity' values='1;.3;1' dur='0.9s' repeatCount='indefinite'/>"+
+    "</circle>"+
+    "<circle cx=40 cy=10 r=8 fill='green'>"+
+        "<animate attributeName='opacity' values='1;.3;1' dur='0.9s' repeatCount='indefinite' begin='0.3s'/>"+
+    "</circle>"+
+    "<circle cx=70 cy=10 r=8 fill='blue'>"+
+        "<animate attributeName='opacity' values='1;.3;1' dur='0.9s' repeatCount='indefinite' begin='0.6s'/>"+
+    "</circle>"+
+    "</svg></div>"
 
     function Loading(target){
         $(target).html(loadingSVG)
@@ -180,7 +179,6 @@ const webr = (function() {
         });
     }
 
-
     function Confirm(title,msg,callback) {
         const code="<div class='modal fade bg-light' id='webr-cf' tabindex='-1' aria-labelledby='webr-cf-t' aria-hidden='true'>" +
                 "<div class='modal-dialog'>" +
@@ -213,15 +211,17 @@ const webr = (function() {
         $(document).on('click', 'button[data-webr-ajax]',function(event) {
             event.preventDefault();
             let option=$(this).data('webr-ajax')
-            Confirm(option.title||"请确认",option.msg || "",function(){
+            Confirm(option.title||"请确认",option.msg || "",function(e){
+                e.preventDefault();
                 $.ajax({
                     url: option.url,
                     method: option.method || 'POST',
+                    dateType: "json",
                     success: function(response) {
                         if (option.success){
                             option.success(response)
                         }else {
-                            onResponse(response)
+                            onResponse(event,response)
                         }
                     },
                     error: function(xhr, status, error) {
@@ -234,7 +234,6 @@ const webr = (function() {
 
     function BindInputAjaxChange(){
         $(document).on('click', 'input[data-webr-ajax]', function(event) {
-        // $('input[data-webr-ajax]').on('change', function(event) {
             event.preventDefault();
             let option=$(this).data('webr-ajax')
             let formData=option.data || {}
