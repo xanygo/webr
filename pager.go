@@ -64,18 +64,21 @@ func (p *Pager1) getNear() int {
 }
 
 func (p *Pager1) HTML() template.HTML {
-	totalPage := p.Info.TotalPages()
+	totalPage := p.Info.GetPageCount()
+	if totalPage < 2 {
+		return ""
+	}
 	ul := xhtml.NewAny("ul")
 	xhtml.SetClass(ul, "pagination", "justify-content-center")
 
-	page := p.Info.Page
+	page := max(p.Info.PageIndex, 1)
 
 	if !p.DisableStat {
 		tp := totalPage
-		if p.Info.Total == 0 {
+		if p.Info.TotalRecords == 0 {
 			tp = 0
 		}
-		ul.Add(p.disabled(fmt.Sprintf("共 %d 条记录 %d 页", p.Info.Total, tp)))
+		ul.Add(p.disabled(fmt.Sprintf("共 %d 条记录 %d 页", p.Info.TotalRecords, tp)))
 	}
 
 	if page == 1 {
