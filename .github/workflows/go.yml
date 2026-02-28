@@ -14,8 +14,8 @@ jobs:
   build:
     strategy:
       matrix:
-        go: ['1.23']
-        servers: [ "ubuntu-latest","windows-latest","macos-latest","macos-13"]
+        go: ['1.26']
+        servers: [ "ubuntu-latest","windows-latest","macos-latest"]
     runs-on: ${{ matrix.servers }}
 
     name: Go ${{ matrix.go }} On ${{ matrix.servers }}
