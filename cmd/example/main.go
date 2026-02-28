@@ -13,8 +13,8 @@ import (
 
 const html = `<html>
 <head>
-<script type="text/javascript" src="/asset/bootstrap/bootstrap.bundle.min.js" defer ></script>
-<link rel="stylesheet" href="/asset/bootstrap/bootstrap.min.css" />
+<script type="text/javascript" src="/asset/bootstrap/bootstrap.js" defer ></script>
+<link rel="stylesheet" href="/asset/bootstrap/bootstrap.css" />
 </head
 <body>
  <h1>Hello</h1>
