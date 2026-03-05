@@ -46,9 +46,10 @@ tasks:
           URL: "https://github.com/marioizquierdo/jquery.serializeJSON/raw/refs/heads/master/jquery.serializejson.min.js"
           Site: https://github.com/marioizquierdo/jquery.serializeJSON
 
-        - Name: "form.js"
-          URL: "https://github.com/jquery-form/form/raw/refs/heads/master/dist/jquery.form.min.js"
-          Site: https://github.com/jquery-form/form
+#     jquery-form 和 jquery 4 不兼容
+#        - Name: "form.js"
+#          URL: "https://github.com/jquery-form/form/raw/refs/heads/master/dist/jquery.form.min.js"
+#          Site: https://github.com/jquery-form/form
 
         - Name: "axios.js"
           URL: "https://unpkg.com/axios/dist/axios.min.js"
@@ -110,7 +111,7 @@ tasks:
       - mkdir -p jquery && rm -rf jquery/*
       - cp tmp/jquery.js jquery/jquery.js
       - cp tmp/form2json.js jquery/form2json.js
-      - cp tmp/form.js jquery/form.js
+#      - cp tmp/form.js jquery/form.js
       - minify -a -i -r jquery/*
       - zip -r -9 jquery.zip jquery
 

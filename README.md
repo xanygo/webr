@@ -24,7 +24,6 @@ icons
 ├── font
 │   ├── bootstrap-icons.css
 │   ├── bootstrap-icons.json
-│   ├── bootstrap-icons.min.css
 │   └── fonts
 │       ├── bootstrap-icons.woff
 │       └── bootstrap-icons.woff2
@@ -33,9 +32,10 @@ icons
 
 ## 2. Usage
 ```go
+import "net/http"
 import "github.com/xanygo/webr"
 
-http.Handle("/asset/", http.StripPrefix("/asset/", webr.Handler()))
+http.Handle("/asset/", http.StripPrefix("/asset/", http.FileServerFS(webr.Bootstrap())))
 ```
 
 ```go

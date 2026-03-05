@@ -140,10 +140,10 @@ const webr = (function() {
         $(target).on('submit', function(e) {
             e.preventDefault();
             if (typeof onSuccess == "string"){
-                $(onSuccess).html(loadingSVG)
+                $(onSuccess).html(loadingSVG);
             }
 
-            let formData = $(this).serializeJSON()
+            let formData = $(this).serializeJSON();  // 依赖 jquery.serializeJSON
             $.ajax({
                 url: $(this).attr("action"),
                 method: $(this).attr("method") || "POST",
