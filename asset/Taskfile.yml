@@ -24,6 +24,7 @@ tasks:
   clear:
     cmds:
       - mkdir -p tmp && rm -rf tmp/*
+      - rm -f axios.zip  bootstrap.zip  clipboard.zip  icons.zip  jquery.zip  sortable.zip  wangeditor.zip
 
   download:
     dir: tmp
