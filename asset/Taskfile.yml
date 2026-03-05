@@ -1,5 +1,8 @@
 # https://taskfile.dev
 
+# dep:
+# https://github.com/tdewolff/minify/tree/master/cmd/minify
+
 version: '3'
 
 tasks:
@@ -28,28 +31,23 @@ tasks:
     vars:
       FILES:
         - Name: "bootstrap.js"
-          RawURL: "https://github.com/twbs/bootstrap/raw/refs/heads/main/dist/js/bootstrap.bundle.min.js"
-          URL: "https://xget.xi-xu.me/gh/twbs/bootstrap/raw/refs/heads/main/dist/js/bootstrap.bundle.min.js"
+          URL: "https://github.com/twbs/bootstrap/raw/refs/heads/main/dist/js/bootstrap.bundle.min.js"
 
         - Name: "bootstrap.css"
-          RawURL: "https://github.com/twbs/bootstrap/raw/refs/heads/main/dist/css/bootstrap.min.css"
-          URL: "https://xget.xi-xu.me/gh/twbs/bootstrap/raw/refs/heads/main/dist/css/bootstrap.min.css"
+          URL: "https://github.com/twbs/bootstrap/raw/refs/heads/main/dist/css/bootstrap.min.css"
 
         - Name: "icons.zip"
-          RawURL: "https://github.com/twbs/icons/releases/download/v1.13.1/bootstrap-icons-1.13.1.zip"
-          URL: "https://xget.xi-xu.me/gh/twbs/icons/releases/download/v1.13.1/bootstrap-icons-1.13.1.zip"
+          URL: "https://github.com/twbs/icons/releases/download/v1.13.1/bootstrap-icons-1.13.1.zip"
 
         - Name: "jquery.js"
-          URL: "https://code.jquery.com/jquery-3.7.1.min.js"
+          URL: "https://code.jquery.com/jquery-4.0.0.min.js"
 
         - Name: "form2json.js"
-          RawURL: "https://github.com/marioizquierdo/jquery.serializeJSON/raw/refs/heads/master/jquery.serializejson.min.js"
-          URL: "https://xget.xi-xu.me/gh/marioizquierdo/jquery.serializeJSON/raw/refs/heads/master/jquery.serializejson.min.js"
+          URL: "https://github.com/marioizquierdo/jquery.serializeJSON/raw/refs/heads/master/jquery.serializejson.min.js"
           Site: https://github.com/marioizquierdo/jquery.serializeJSON
 
         - Name: "form.js"
-          RawURL: "https://github.com/jquery-form/form/raw/refs/heads/master/dist/jquery.form.min.js"
-          URL: "https://xget.xi-xu.me/gh/jquery-form/form/raw/refs/heads/master/dist/jquery.form.min.js"
+          URL: "https://github.com/jquery-form/form/raw/refs/heads/master/dist/jquery.form.min.js"
           Site: https://github.com/jquery-form/form
 
         - Name: "axios.js"
@@ -57,13 +55,11 @@ tasks:
           Site: https://axios-http.com/zh/docs/intro
 
         - Name: "clipboard.js"
-          RawURL: "https://github.com/zenorocha/clipboard.js/raw/refs/heads/master/dist/clipboard.min.js"
-          URL: "https://xget.xi-xu.me/gh/zenorocha/clipboard.js/raw/refs/heads/master/dist/clipboard.min.js"
+          URL: "https://github.com/zenorocha/clipboard.js/raw/refs/heads/master/dist/clipboard.min.js"
           Site: https://clipboardjs.com/
 
         - Name: "sortable.js"
-          RawURL: "https://github.com/SortableJS/Sortable/raw/refs/heads/master/Sortable.min.js"
-          URL: "https://xget.xi-xu.me/gh/SortableJS/Sortable/raw/refs/heads/master/Sortable.min.js"
+          URL: "https://github.com/SortableJS/Sortable/raw/refs/heads/master/Sortable.min.js"
           Site: https://github.com/SortableJS/Sortable
 
         - Name: "wangEditor.js"
@@ -93,6 +89,8 @@ tasks:
       - mkdir -p bootstrap && rm -rf bootstrap/*
       - cp tmp/bootstrap.js bootstrap/
       - cp tmp/bootstrap.css bootstrap/
+      - minify -a -i -r bootstrap/*
+      - zip -r -9 bootstrap.zip bootstrap
 
   icons:
     dir: tmp
@@ -103,6 +101,9 @@ tasks:
         [ ! -f "icons.tar.gz" ] && tar -czf icons.tar.gz icons_tmp && rm -rf icons_tmp
         mkdir -p icons && rm -rf icons/*
         tar -xzf icons.tar.gz --strip-components=2 -C icons
+      - minify -a -i -r icons/*
+      - rm icons/font/bootstrap-icons.min.css || true
+      - zip -r -9 icons.zip icons
 
   jquery:
     cmds:
@@ -110,12 +111,16 @@ tasks:
       - cp tmp/jquery.js jquery/jquery.js
       - cp tmp/form2json.js jquery/form2json.js
       - cp tmp/form.js jquery/form.js
+      - minify -a -i -r jquery/*
+      - zip -r -9 jquery.zip jquery
 
   wang:
     cmds:
       - mkdir -p wangeditor && rm -rf wangeditor/*
       - cp tmp/wangEditor.js wangeditor/index.js
       - cp tmp/wangEditor.css wangeditor/style.css
+      - minify -a -i -r wangeditor/*
+      - zip -r -9 wangeditor.zip wangeditor
 
   other:
     cmds:
@@ -125,10 +130,17 @@ tasks:
       - cp tmp/sortable.js sortable/sortable.js
       - cp tmp/axios.js axios/axios.js
       - cp tmp/clipboard.js clipboard/clipboard.js
+      - minify -a -i -r clipboard/*
+      - minify -a -i -r sortable/*
+      - minify -a -i -r axios/*
+      - zip -r -9 clipboard.zip clipboard
+      - zip -r -9 sortable.zip sortable
+      - zip -r -9 axios.zip axios
 
   create:
     cmds:
-      - rm -f asset.zip
-      - tree axios bootstrap clipboard jquery sortable wangeditor -L 2
-      - tree icons|grep -v svg
-      - zip -r -9 asset.zip axios bootstrap  clipboard icons jquery sortable wangeditor
+      - echo "skipped"
+#      - rm -f asset.zip
+#      - tree axios bootstrap clipboard jquery sortable wangeditor -L 2
+#      - tree icons|grep -v svg
+#      - zip -r -9 asset.zip axios bootstrap  clipboard icons jquery sortable wangeditor

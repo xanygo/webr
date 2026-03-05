@@ -28,7 +28,8 @@ func main() {
 	http.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
 		_, _ = writer.Write([]byte(html))
 	})
-	http.Handle("/asset/", http.StripPrefix("/asset/", webr.Handler()))
+	xh := http.FileServerFS(webr.Bootstrap())
+	http.Handle("/asset/", http.StripPrefix("/asset/", xh))
 	log.Println("running...")
 	err := http.ListenAndServe("127.0.0.1:8080", nil)
 	log.Println("server exit:", err)

@@ -6,25 +6,31 @@ import (
 	_ "embed"
 	"io/fs"
 
+	"github.com/xanygo/anygo/ds/xsync"
 	"github.com/xanygo/anygo/ds/xzip"
 	"github.com/xanygo/anygo/xcodec"
 )
 
-var uiAsset fs.FS
-
 //go:embed ui.ez
-var _f6d9e96ae3e47c0e08cbfcb1a1e81088 []byte
+var _6c2e765431f84c1d7847519f10f0cf40 []byte
 
-func init() {
-	dz := &xcodec.AesOFB{
-		Key: string([]byte{
-			'0', '8', 'c', 'c', '6', '3', 'c', '2',
-			'4', 'f', '7', '7', 'f', 'c', '1', 'd',
-			'4', '1', '4', '1', '6', '6', '3', 'f',
-			'c', 'b', '9', 'a', '9', 'd', '2', '6',
-		}),
-	}
-	uiAsset = xzip.MustDecrypt(_f6d9e96ae3e47c0e08cbfcb1a1e81088, dz)
-	clear(_f6d9e96ae3e47c0e08cbfcb1a1e81088)
-	_f6d9e96ae3e47c0e08cbfcb1a1e81088 = nil
+var _6c2e765431f84c1d7847519f10f0cf40Once = &xsync.OnceInit[fs.FS]{
+	New: func() fs.FS {
+		dz := &xcodec.AesOFB{
+			Key: string([]byte{
+				'0', '8', 'c', 'c', '6', '3', 'c', '2',
+				'4', 'f', '7', '7', 'f', 'c', '1', 'd',
+				'4', '1', '4', '1', '6', '6', '3', 'f',
+				'c', 'b', '9', 'a', '9', 'd', '2', '6',
+			}),
+		}
+		rd := xzip.MustDecrypt(_6c2e765431f84c1d7847519f10f0cf40, dz)
+		clear(_6c2e765431f84c1d7847519f10f0cf40)
+		_6c2e765431f84c1d7847519f10f0cf40 = nil
+		return rd
+	},
+}
+
+func UI() fs.FS {
+	return _6c2e765431f84c1d7847519f10f0cf40Once.Load()
 }
