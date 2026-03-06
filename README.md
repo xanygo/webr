@@ -1,5 +1,5 @@
 # Web Resource
-
+内嵌打包部分常用 Web 资源，资源以 fs.FS 类型返回，可直接读取，或者用于 Web Server。
 
 ## 1. Include Files
 ```
@@ -12,7 +12,6 @@ bootstrap
 clipboard
 └── clipboard.js
 jquery
-├── form.js
 ├── form2json.js
 └── jquery.js
 sortable/
@@ -38,7 +37,7 @@ import "github.com/xanygo/webr"
 http.Handle("/asset/", http.StripPrefix("/asset/", http.FileServerFS(webr.Bootstrap())))
 ```
 
-```go
+```html
 <script type="text/javascript" src="/asset/bootstrap/bootstrap.js"></script>
 <link rel="stylesheet" href="/asset/bootstrap/bootstrap.css" />
 ```
