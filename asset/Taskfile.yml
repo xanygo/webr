@@ -92,20 +92,22 @@ tasks:
       - cp tmp/bootstrap.js bootstrap/
       - cp tmp/bootstrap.css bootstrap/
       - minify -a -i -r bootstrap/*
-      - zip -r -9 bootstrap.zip bootstrap
+      - zip -X -r -9 bootstrap.zip bootstrap
 
   icons:
-    dir: tmp
     cmds:
+      - rm -rf icons icons.zip
       - |
+        cd tmp
         mkdir -p icons_tmp && rm -rf icons_tmp/*
-        unzip -f icons.zip -d icons_tmp
-        [ ! -f "icons.tar.gz" ] && tar -czf icons.tar.gz icons_tmp && rm -rf icons_tmp
-        mkdir -p icons && rm -rf icons/*
-        tar -xzf icons.tar.gz --strip-components=2 -C icons
-      - minify -a -i -r icons/*
-      - rm icons/font/bootstrap-icons.min.css || true
-      - zip -r -9 icons.zip icons
+        unzip icons.zip -d icons_tmp
+        tar -czf icons.tar.gz icons_tmp && rm -rf icons_tmp
+        mkdir -p ../icons && rm -rf icons/*
+        tar -xzvf icons.tar.gz --strip-components=2 -C ../icons
+      - pwd
+      - rm -f icons/font/bootstrap-icons.min.css
+      - minify -a -i -r icons
+      - zip -X -r -9 icons.zip icons
 
   jquery:
     cmds:
@@ -114,7 +116,7 @@ tasks:
       - cp tmp/form2json.js jquery/form2json.js
 #      - cp tmp/form.js jquery/form.js
       - minify -a -i -r jquery/*
-      - zip -r -9 jquery.zip jquery
+      - zip -X -r -9 jquery.zip jquery
 
   wang:
     cmds:
@@ -122,7 +124,7 @@ tasks:
       - cp tmp/wangEditor.js wangeditor/index.js
       - cp tmp/wangEditor.css wangeditor/style.css
       - minify -a -i -r wangeditor/*
-      - zip -r -9 wangeditor.zip wangeditor
+      - zip -X -r -9 wangeditor.zip wangeditor
 
   other:
     cmds:
@@ -135,9 +137,9 @@ tasks:
       - minify -a -i -r clipboard/*
       - minify -a -i -r sortable/*
       - minify -a -i -r axios/*
-      - zip -r -9 clipboard.zip clipboard
-      - zip -r -9 sortable.zip sortable
-      - zip -r -9 axios.zip axios
+      - zip -X -r -9 clipboard.zip clipboard
+      - zip -X -r -9 sortable.zip sortable
+      - zip -X -r -9 axios.zip axios
 
   create:
     cmds:
