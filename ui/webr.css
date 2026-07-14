@@ -14,3 +14,9 @@
     font-size: 1.5rem;
     cursor: move;
 }
+
+.required::before {
+    content: "*";
+    color: #dc3545;
+    margin-right: 2px;
+}

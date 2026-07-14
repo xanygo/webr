@@ -1,2 +1,4 @@
 github.com/xanygo/anygo v0.0.0-20260227040922-78a0eeb3d384 h1:EaSPEX6gy4owzmN0Ug/T3q5mdE0H4+uSrZLLVPpdRuM=
 github.com/xanygo/anygo v0.0.0-20260227040922-78a0eeb3d384/go.mod h1:1h3l23zQUqyXuPhWsrysfSfx1UHBD4lXoyxCuk7m0sw=
+github.com/xanygo/anygo v0.0.0-20260629072412-ac1831fd8d48 h1:gtmGbyK6RG7z0AZ98Tn8Ymb0bKmLm9IZZdAXu59vEf8=
+github.com/xanygo/anygo v0.0.0-20260629072412-ac1831fd8d48/go.mod h1:Du0CyxgRsRpRGSCnt6Pye9R/uVJZEHrtlI0KvI7P6MI=

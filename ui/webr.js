@@ -258,14 +258,14 @@ const webr = (function() {
     }
 
     function AddRow(event,tplSec,dstSec,area){
-        const obj=$(event).parents( area || "form");
+        const obj=$(event).closest( area || "form");
         const inputs=obj.find(dstSec);
         const tplCode=$(tplSec).html();
         inputs.append(tplCode);
     }
 
     function RemoveRow(event,target){
-       $(event).parents(target).remove()
+       $(event).closest(target).remove()
     }
 
     function BindCopy(){
