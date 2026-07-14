@@ -12,9 +12,9 @@ import (
 )
 
 //go:embed ui.ez
-var _6c2e765431f84c1d7847519f10f0cf40 []byte
+var _050d0826f4cff86d182238b2796315ba []byte
 
-var _6c2e765431f84c1d7847519f10f0cf40Once = &xsync.OnceInit[fs.FS]{
+var _050d0826f4cff86d182238b2796315baOnce = &xsync.OnceInit[fs.FS]{
 	New: func() fs.FS {
 		dz := &xcodec.AesOFB{
 			Key: string([]byte{
@@ -24,13 +24,13 @@ var _6c2e765431f84c1d7847519f10f0cf40Once = &xsync.OnceInit[fs.FS]{
 				'c', 'b', '9', 'a', '9', 'd', '2', '6',
 			}),
 		}
-		rd := xzip.MustDecrypt(_6c2e765431f84c1d7847519f10f0cf40, dz)
-		clear(_6c2e765431f84c1d7847519f10f0cf40)
-		_6c2e765431f84c1d7847519f10f0cf40 = nil
+		rd := xzip.MustDecrypt(_050d0826f4cff86d182238b2796315ba, dz)
+		clear(_050d0826f4cff86d182238b2796315ba)
+		_050d0826f4cff86d182238b2796315ba = nil
 		return rd
 	},
 }
 
 func UI() fs.FS {
-	return _6c2e765431f84c1d7847519f10f0cf40Once.Load()
+	return _050d0826f4cff86d182238b2796315baOnce.Load()
 }

@@ -5,6 +5,8 @@
 package main
 
 import (
+	"github.com/xanygo/anygo/xhttp"
+	"github.com/xanygo/anygo/xio/xfs"
 	"log"
 	"net/http"
 
@@ -28,7 +30,24 @@ func main() {
 	http.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
 		_, _ = writer.Write([]byte(html))
 	})
-	xh := http.FileServerFS(webr.Bootstrap())
+
+	ah := xhttp.FSHandlers{
+		&xhttp.FS{
+			FS: xfs.OverlayFS{
+				webr.Bootstrap(),
+				webr.Icons(),
+				webr.JQuery(),
+				webr.Clipboard(),
+				webr.Sortable(),
+				webr.UI(),
+			},
+		},
+	}
+	//fs.WalkDir(webr.UI(), ".", func(path string, d fs.DirEntry, err error) error {
+	//	log.Println("path:", path)
+	//	return nil
+	//})
+	xh := http.FileServerFS(ah)
 	http.Handle("/asset/", http.StripPrefix("/asset/", xh))
 	log.Println("running...")
 	err := http.ListenAndServe("127.0.0.1:8080", nil)
