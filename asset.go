@@ -11,7 +11,7 @@ import (
 	"fmt"
 	"io/fs"
 
-	"github.com/xanygo/anygo/ds/xsync"
+	"github.com/xanygo/anygo/xsync"
 )
 
 func loadZipFile(name string, bf []byte) *xsync.OnceInit[fs.FS] {

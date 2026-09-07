@@ -6,17 +6,17 @@ import (
 	_ "embed"
 	"io/fs"
 
-	"github.com/xanygo/anygo/ds/xsync"
-	"github.com/xanygo/anygo/ds/xzip"
-	"github.com/xanygo/anygo/xcodec"
+	"github.com/xanygo/anygo/xenc/xcipher"
+	"github.com/xanygo/anygo/xenc/xcompress"
+	"github.com/xanygo/anygo/xsync"
 )
 
 //go:embed ui.ez
-var _050d0826f4cff86d182238b2796315ba []byte
+var _6c2e765431f84c1d7847519f10f0cf40 []byte
 
-var _050d0826f4cff86d182238b2796315baOnce = &xsync.OnceInit[fs.FS]{
+var _6c2e765431f84c1d7847519f10f0cf40Once = &xsync.OnceInit[fs.FS]{
 	New: func() fs.FS {
-		dz := &xcodec.AesOFB{
+		dz := &xcipher.AesOFB{
 			Key: string([]byte{
 				'0', '8', 'c', 'c', '6', '3', 'c', '2',
 				'4', 'f', '7', '7', 'f', 'c', '1', 'd',
@@ -24,13 +24,13 @@ var _050d0826f4cff86d182238b2796315baOnce = &xsync.OnceInit[fs.FS]{
 				'c', 'b', '9', 'a', '9', 'd', '2', '6',
 			}),
 		}
-		rd := xzip.MustDecrypt(_050d0826f4cff86d182238b2796315ba, dz)
-		clear(_050d0826f4cff86d182238b2796315ba)
-		_050d0826f4cff86d182238b2796315ba = nil
+		rd := xcompress.MustDecryptZip(_6c2e765431f84c1d7847519f10f0cf40, dz)
+		clear(_6c2e765431f84c1d7847519f10f0cf40)
+		_6c2e765431f84c1d7847519f10f0cf40 = nil
 		return rd
 	},
 }
 
 func UI() fs.FS {
-	return _050d0826f4cff86d182238b2796315baOnce.Load()
+	return _6c2e765431f84c1d7847519f10f0cf40Once.Load()
 }
