@@ -5,10 +5,11 @@
 package main
 
 import (
-	"github.com/xanygo/anygo/xhttp"
-	"github.com/xanygo/anygo/xio/xfs"
 	"log"
 	"net/http"
+
+	"github.com/xanygo/anygo/xhttp"
+	"github.com/xanygo/anygo/xio/xfs"
 
 	"github.com/xanygo/webr"
 )
@@ -35,7 +36,7 @@ func main() {
 		&xhttp.FS{
 			FS: xfs.OverlayFS{
 				webr.Bootstrap(),
-				webr.Icons(),
+				// webr.Icons(),
 				webr.JQuery(),
 				webr.Clipboard(),
 				webr.Sortable(),
