@@ -30,16 +30,32 @@ func (r Response) WriteJSONStatus(w http.ResponseWriter, status int) {
 	_, _ = w.Write(bf)
 }
 
+// WriteError 以 HTTP Status 200 输出错误
 func (r Response) WriteError(w http.ResponseWriter, err error) {
 	code := xerror.ErrCode(err, 500)
 	r.Code = int(code)
-	r.Msg = "失败：" + err.Error()
+	r.Msg = err.Error()
 	r.WriteJSON(w)
 }
 
-func (r Response) WriteErrorAuto(w http.ResponseWriter, err error) {
+// WriteErrorStatus 以指定的 HTTP Status 输出错误
+func (r Response) WriteErrorStatus(w http.ResponseWriter, err error, status int) {
+	code := xerror.ErrCode(err, 500)
+	r.Code = int(code)
+	r.Msg = err.Error()
+	r.WriteJSONStatus(w, status)
+}
+
+func (r Response) WriteAutoError(w http.ResponseWriter, err error) {
 	if err != nil {
 		r.WriteError(w, err)
+		return
+	}
+	r.WriteJSON(w)
+}
+func (r Response) WriteAutoErrorStatus(w http.ResponseWriter, err error, failStatus int) {
+	if err != nil {
+		r.WriteErrorStatus(w, err, failStatus)
 		return
 	}
 	r.WriteJSON(w)
@@ -50,12 +66,26 @@ func WriteJSON(w http.ResponseWriter, code int, msg string, data any) {
 	resp.WriteJSON(w)
 }
 
+// WriteJSONError 以 HTTP Status 200 输出错误
 func WriteJSONError(w http.ResponseWriter, err error) {
 	resp := Response{}
 	resp.WriteError(w, err)
 }
 
+// WriteJSONErrorStatus 以指定的 HTTP Status 输出错误
+func WriteJSONErrorStatus(w http.ResponseWriter, err error, status int) {
+	resp := Response{}
+	resp.WriteErrorStatus(w, err, status)
+}
+
+// WriteJSONAuto 以 HTTP Status 200 输出结果
 func WriteJSONAuto(w http.ResponseWriter, err error) {
 	resp := Response{}
-	resp.WriteErrorAuto(w, err)
+	resp.WriteAutoError(w, err)
+}
+
+// WriteJSONAutoStatus 若 err 为 nil，以 HTTP Status 200 输出 JSON 响应，否则以 failStatus 输出 JSON
+func WriteJSONAutoStatus(w http.ResponseWriter, err error, failStatus int) {
+	resp := Response{}
+	resp.WriteAutoErrorStatus(w, err, failStatus)
 }

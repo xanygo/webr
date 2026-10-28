@@ -12,7 +12,7 @@ tasks:
       - echo "starting..."
       - task: clear
       - task: download
-      - task: icons
+      # - task: icons
       - task: bootstrap
       - task: jquery
       - task: wang

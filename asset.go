@@ -59,13 +59,13 @@ func Clipboard() fs.FS {
 	return clipboardFileOnce.Load()
 }
 
-//go:embed asset/icons.zip
-var iconsFile []byte
-var iconsFileOnce = loadZipFile("icons.zip", iconsFile)
+// //go:embed asset/icons.zip
+// var iconsFile []byte
+// var iconsFileOnce = loadZipFile("icons.zip", iconsFile)
 
-func Icons() fs.FS {
-	return iconsFileOnce.Load()
-}
+// func Icons() fs.FS {
+// 	return iconsFileOnce.Load()
+// }
 
 //go:embed asset/sortable.zip
 var sortableFile []byte
